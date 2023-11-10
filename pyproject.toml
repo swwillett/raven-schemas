@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "raven-schemas"
+version = "0.1.0"
+description = "Cross-repo relevant JSON schemas and language specific bindings for using them."
+authors = ["Energy Raven"]
+packages = [{ include = "raven_schemas" }]
+include = [{ path = "schemas" }]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.13"
+jsonschema = "^4.19.2"
+click = "^8.1.7"
+
+[tool.poetry.scripts]
+raven-schemas = "raven_schemas.main:raven_schemas"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
