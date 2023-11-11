@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "address": {
+      "type": "string"
+    },
+    "bedroomCount": {
+      "type": "integer"
+    },
+    "buildYear": {
+      "type": "integer"
+    },
+    "buildingAreaSqFt": {
+      "type": "integer"
+    },
+    "city": {
+      "type": "string"
+    },
+    "county": {
+      "type": "string"
+    },
+    "energyReportSlug": {
+      "type": "string"
+    },
+    "garageAreaSqFt": {
+      "type": "integer"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "roofAreaSqM": {
+      "type": "number"
+    },
+    "roofMaterial": {
+      "type": "string",
+      "$comment": "Propinc values are from 'Architectural Shingles' to 'Other'. Redfin values are from 'Tile' to 'Common Roof'.",
+      "enum": [
+        "Architectural Shingles",
+        "Asbestos Shingles",
+        "Asphalt/Composite Shingles",
+        "Built-up/Tar with Gravel",
+        "Built-up/Tar without Gravel",
+        "Clay Tiles",
+        "Concrete/Stone Tiles",
+        "Fiberglass/Fiber-Cement/Masonite",
+        "Metal",
+        "Rolled Composition",
+        "Rubber Membrane",
+        "Slate",
+        "Solar Shingles (Photovoltaic)",
+        "Synthetic/Plastic Shingles",
+        "Unspecified Shingles",
+        "Wood Shakes/Shingles",
+        "Other",
+        "Tile",
+        "Flat Tile",
+        "Tile/Slate",
+        "Spanish Tile",
+        "Shingle",
+        "Composition",
+        "Concrete",
+        "Bitumen",
+        "Asphalt",
+        "Asbestos Shingle",
+        "Common Roof"
+      ]
+    },
+    "roofTreeOverlapRatio": {
+      "type": "number"
+    },
+    "state": {
+      "type": "string"
+    },
+    "storyCount": {
+      "type": "integer"
+    },
+    "survey": {
+      "type": "object",
+      "properties": {
+        "systems": {
+          "type": "object",
+          "properties": {
+            "primary_heating": {
+              "type": "object",
+              "properties": {
+                "fuel_type": {
+                  "type": "string",
+                  "enum": [
+                    "Gas",
+                    "Oil",
+                    "Propane",
+                    "Electricity"
+                  ]
+                },
+                "ducted_heating": {
+                  "type": "boolean"
+                },
+                "functional": {
+                  "type": "boolean"
+                },
+                "over_age": {
+                  "type": "boolean"
+                },
+                "furnace_vent": {
+                  "enum": [
+                    "PVC",
+                    "Metal",
+                    null
+                  ]
+                },
+                "system": {
+                  "enum": [
+                    "Ducted Heat Pump",
+                    "Furnace",
+                    "Boiler",
+                    "Baseboard",
+                    "Mini Split",
+                    "Wall Furnace",
+                    null
+                  ]
+                },
+                "insulated_ducts": {
+                  "enum": [
+                    "Damaged/Inadequate",
+                    "Adequate",
+                    null
+                  ]
+                },
+                "dist_type": {
+                  "enum": [
+                    "Radiator",
+                    "Radiant Floor",
+                    "Radiant Baseboard",
+                    null
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

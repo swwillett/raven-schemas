@@ -1,0 +1,91 @@
+{
+    "address": "123 Main St, Thousand Oaks, CA 91360",
+    "bedroomCount": 4,
+    "buildYear": 1960,
+    "buildingAreaSqFt": 1245,
+    "city": "Thousand Oaks",
+    "county": "Ventura",
+    "energyReportSlug": "123-main-st-dvsnvz",
+    "garageAreaSqFt": 492,
+    "latitude": 34.207191,
+    "longitude": -118.866704,
+    "roofAreaSqM": 333.64,
+    "roofMaterial": "Asphalt/Composite Shingles",
+    "roofTreeOverlapRatio": 0.0004,
+    "state": "CA",
+    "storyCount": 1,
+    "survey": {
+        "appliances": {
+            "cooking": {
+                "fuel_type": "Gas",
+                "functional": true,
+                "over_age": true,
+                "type": "Range"
+            },
+            "dishwasher": {
+                "functional": true,
+                "over_age": false
+            },
+            "dryer": {
+                "fuel_type": "Electric",
+                "over_age": true
+            },
+            "refrigerator": {
+                "over_age": true
+            },
+            "washer": {
+                "over_age": true
+            }
+        },
+        "electrical": {
+            "electrical_panel": {
+                "is_over_200amps": false
+            },
+            "whole_house_battery": {
+                "present": true
+            }
+        },
+        "structure": {
+            "airtightness": {
+                "level": "1=leaky"
+            },
+            "attic_type": {
+                "insulation": "Adequate",
+                "type": "Finished"
+            },
+            "foundation_under_main_floor_space": {
+                "insulation": "Adequate",
+                "type": "Vented Crawlspace"
+            },
+            "most_lights": {
+                "type": "Incandescent"
+            },
+            "most_windows": "Double Pane, Metal"
+        },
+        "systems": {
+            "cooling": {
+                "over_age": true,
+                "size": "8",
+                "type": "Condenser"
+            },
+            "primary_heating": {
+                "dist_type": null,
+                "ducted_heating": true,
+                "fuel_type": "Gas",
+                "functional": true,
+                "furnace_vent": "PVC",
+                "insulated_ducts": "Damaged/Inadequate",
+                "over_age": false,
+                "size": "9",
+                "system": "Furnace"
+            },
+            "water_heating": {
+                "functional": true,
+                "over_age": true,
+                "size": "5",
+                "type": "Gas Tankless",
+                "water_pipe_insulation": "Damaged/Inadequate"
+            }
+        }
+    }
+}

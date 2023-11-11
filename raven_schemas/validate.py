@@ -18,12 +18,15 @@ def validate_json_single_version(
     data: dict, schema_name: types.SchemaName, version: str
 ):
     """Validate the JSON schema for the given schema name at a specific version"""
+    if "_" in version:
+        raise ValueError(
+            f"Version {version} should be in the form '1.0.0', not '1_0_0'"
+        )
     version_for_filename = version.replace(".", "_")
     schema_path = (
         PACKAGE_DIR
         / "schemas"
-        / schema_name.name
-        / f"{schema_name.value}_{version_for_filename}.json"
+        / f"{schema_name.value}_{version_for_filename}_schema.json"
     )
     try:
         with open(schema_path) as f:
@@ -37,9 +40,9 @@ def find_valid_versions(
     json_data: dict, schema_name: types.SchemaName, versions: List[str]
 ) -> List[str]:
     """Find the first version in the list of versions that successfully validates
-    @raises ValueError if none of the versions validate.
+    @raises ValidationError if none of the versions validate.
     """
-    errors = []  # tuples of (version, message)
+    errors = []  # dicts with versions and error messages
     valid_versions = []
     for version in versions:
         try:
@@ -54,7 +57,7 @@ def find_valid_versions(
     if errors:
         raise ValidationError(
             f"Errors validating {schema_name}:\n"
-            + "\n".join([f"Version {e['version']}: {e['message']}" for e in errors])
+            + "\n  ".join([f"Version {e['version']}: {e['message']}" for e in errors])
         )
     raise ValueError(
         f"Errors validating {schema_name}: no versions validated but no errors raised"
