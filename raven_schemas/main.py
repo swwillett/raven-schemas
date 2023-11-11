@@ -30,7 +30,7 @@ def validate_json(data: dict, schema_name: SchemaName, versions: List[str]):
             except jsonschema.exceptions.ValidationError as e:
                 e.append({'version': version, 'message': e.message})
             except OSError as e:
-                
+
 
 @click.group()
 def raven_schemas():
