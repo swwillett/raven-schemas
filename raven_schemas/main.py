@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from enum import Enum
 from pathlib import Path
 from typing import List
@@ -8,6 +9,10 @@ import click
 import jsonschema
 
 PACKAGE_DIR = Path(os.path.dirname(__file__))
+
+
+class ValidationError(ValueError):
+    pass
 
 
 class SchemaName(Enum):
@@ -49,7 +54,7 @@ def find_valid_versions(
     if valid_versions:
         return valid_versions
     if errors:
-        raise ValueError(
+        raise ValidationError(
             f"Errors validating {schema_name}:\n"
             + "\n".join([f"Version {e['version']}: {e['message']}" for e in errors])
         )
@@ -77,5 +82,12 @@ def validate_file(schema_name: str, schema_version: List[str], json_file: Path):
     with open(json_file) as f:
         json_data = json.load(f)
 
-    versions = find_valid_versions(json_data, SchemaName[schema_name], schema_version)
-    print(f"Successfully validated {schema_name} version(s): {versions}")
+    try:
+        versions = find_valid_versions(
+            json_data, SchemaName[schema_name], schema_version
+        )
+    except ValidationError as e:
+        print(e)
+        sys.exit(1)
+    else:
+        print(f"Successfully validated {schema_name} version(s): {versions}")

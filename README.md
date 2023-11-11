@@ -16,15 +16,10 @@ Cross-repo relevant JSON schemas and language specific bindings for using them.
     pip install poetry
     poetry install
     ```
-1. Check
+1. Check a test file against a schema!
     ```bash
     poetry shell
-
-    ```
-1. Use built-in help to see invocation details:
-    ```bash
-    nrgx-models --help # See all commands provided by this package
-    nrgx-models model-home --help # See command options for the modeling command
+    raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input/test_data/1_0_0.json -v 1.0.0
     ```
 1. Follow developer setup instructions below if you expect to check in code.
 
