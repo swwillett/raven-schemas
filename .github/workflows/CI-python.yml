@@ -38,4 +38,7 @@ jobs:
     - name: Check precommit hooks
       uses: pre-commit/action@v3.0.0
 
-    - run: poetry run pytest . --cov=raven_schemas
+    - run: poetry run pytest .
+
+    - name: validate modeling input schema v1.0.0
+      run: raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input/test_data/1_0_0.json -v 1.0.0

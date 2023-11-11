@@ -44,6 +44,8 @@ packages = "nrgx_building_model"
 [tool.pytest.ini_options]
 testpaths = ["nrgx_building_model"]
 python_files = ["*_test.py"]
+addopts = "--cov=raven_schemas"
+
 
 [build-system]
 requires = ["poetry-core"]

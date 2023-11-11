@@ -25,8 +25,11 @@ def validate_json_single_version(
         / schema_name.name
         / f"{schema_name.value}_{version_for_filename}.json"
     )
-    with open(schema_path) as f:
-        schema = json.load(f)
+    try:
+        with open(schema_path) as f:
+            schema = json.load(f)
+    except FileNotFoundError:
+        raise ValueError(f"Schema {schema_name} version {version} not found")
     return jsonschema.validate(schema=schema, instance=data)
 
 
@@ -43,8 +46,6 @@ def find_valid_versions(
             validate_json_single_version(json_data, schema_name, version)
         except jsonschema.exceptions.ValidationError as e:
             errors.append({"version": version, "message": e.message})
-        except OSError:
-            raise ValueError(f"Schema {schema_name} version {version} not found")
         else:
             # Successfully validated
             valid_versions.append(version)
