@@ -1,0 +1,41 @@
+# This workflow will install Python dependencies & run quality checks
+
+name: CI-python
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+        lfs: true
+
+    - name: Install poetry
+      run: pipx install poetry
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+        cache: "poetry"
+
+    - name: Install app & dependencies
+      run: poetry install
+
+    - name: Check precommit hooks
+      uses: pre-commit/action@v3.0.0
+
+    - run: poetry run pytest . --cov=raven_schemas
