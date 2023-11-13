@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raven-schemas"
-version = "0.1.0"
+version = "0.1.4"
 description = "Cross-repo relevant JSON schemas and language specific bindings for using them."
 authors = ["Energy Raven"]
 packages = [{ include = "raven_schemas" }]
@@ -25,6 +25,7 @@ flake8 = "^6.1.0"
 flake8-bugbear = "^23.9.16"
 mypy = "^1.7.0"
 pytest-cov = "^4.1.0"
+bump2version = "^1.0.1"
 
 [tool.flake8]
 extend-ignore = [

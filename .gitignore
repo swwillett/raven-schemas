@@ -1,2 +1,5 @@
 *.pyc
 .coverage
+node_modules
+dist
+coverage

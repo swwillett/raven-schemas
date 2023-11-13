@@ -40,3 +40,13 @@ poetry env info
 poetry shell
 pytest .
 ```
+
+## Releasing
+
+To release a new version of `raven-schemas`, do the following in a fresh branch off of `main`:
+
+```
+$ poetry run bump2version patch # possible: major / minor / patch
+$ git push
+$ git push --tags
+```
