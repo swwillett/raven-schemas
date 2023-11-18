@@ -1,6 +1,25 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "required": [
+    "input_schema_version",
+    "address",
+    "bedroomCount",
+    "buildYear",
+    "buildingAreaSqFt",
+    "city",
+    "county",
+    "energyReportSlug",
+    "garageAreaSqFt",
+    "latitude",
+    "longitude",
+    "roofAreaSqM",
+    "roofMaterial",
+    "roofTreeOverlapRatio",
+    "state",
+    "storyCount",
+    "survey"
+  ],
   "additionalProperties": false,
   "properties": {
     "input_schema_version": {
@@ -87,9 +106,24 @@
       "properties": {
         "systems": {
           "type": "object",
+          "required": [
+            "primary_heating",
+            "cooling",
+            "water_heating"
+          ],
+          "additionalProperties": false,
           "properties": {
             "primary_heating": {
               "type": "object",
+              "required": [
+                "fuel_type",
+                "functional",
+                "over_age",
+                "furnace_vent",
+                "system",
+                "insulated_ducts",
+                "dist_type"
+              ],
               "properties": {
                 "fuel_type": {
                   "type": "string",
@@ -143,8 +177,97 @@
                   ]
                 }
               }
+            },
+            "cooling": {
+              "type": "object",
+              "required": [
+                "type",
+                "over_age"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "None",
+                    "Condenser",
+                    "Ducted Heat Pump",
+                    "Mini Split",
+                    "Window Units"
+                  ]
+                },
+                "over_age": {
+                  "enum": [
+                    true,
+                    false,
+                    null
+                  ]
+                }
+              }
+            },
+            "water_heating": {
+              "type": "object",
+              "required": [
+                "type",
+                "functional",
+                "over_age",
+                "water_pipe_insulation"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Gas Tank",
+                    "Gas Tankless",
+                    "Electric Tank",
+                    "Electric Tankless",
+                    "Heat Pump Tank"
+                  ]
+                },
+                "functional": {
+                  "type": "boolean"
+                },
+                "over_age": {
+                  "type": "boolean"
+                },
+                "water_pipe_insulation": {
+                  "enum": [
+                    "Damaged/Inadequate",
+                    "Adequate"
+                  ]
+                },
+                "size": {
+                  "type": "string"
+                }
+              }
             }
-          }
+          },
+          "allOf": [
+            {
+              "$comment": "If heating is a mini split, cooling must be as well",
+              "if": {
+                "properties": {
+                  "primary_heating": {
+                    "properties": {
+                      "system": {
+                        "const": "Mini Split"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "cooling": {
+                    "properties": {
+                      "type": {
+                        "const": "Mini Split"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     }
