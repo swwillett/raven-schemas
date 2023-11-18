@@ -90,7 +90,7 @@ Then, go to GitHub and [create a new release](https://github.com/T110-nrgx/raven
 
 ### Usage In Python
 
-To use `raven-schemas` in Python, use `poetry add git+https://github.com/T110-nrgx/raven-schemas.git@VERSION` where `VERSION` is the version tag you want to depend on.
+To add or upgrade `raven-schemas` as a dependency for your Python package (eg. [`energy-modeling`](https://github.com/T110-nrgx/energy-modeling)), run `poetry add git+https://github.com/T110-nrgx/raven-schemas.git@VERSION` where `VERSION` is the version tag you want to depend on.
 
 Then, import and use it - see [example code](https://github.com/T110-nrgx/energy-modeling/blob/3db22e8cdb43b0adc4ad0e1d0669c2a38bdfdd97/nrgx_building_model/data_types.py#L150).
 
