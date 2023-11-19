@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raven-schemas"
-version = "0.3.0"
+version = "0.3.1"
 description = "Cross-repo relevant JSON schemas and language specific bindings for using them."
 authors = ["Energy Raven"]
 packages = [{ include = "raven_schemas" }]
