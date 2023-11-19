@@ -20,6 +20,9 @@
   ],
   "additionalProperties": false,
   "properties": {
+    "address": {
+      "type": "string"
+    },
     "bedroomCount": {
       "type": "integer"
     },
@@ -322,8 +325,7 @@
             "cooking": {
               "type": "object",
               "required": [
-                "fuel_type",
-                "gas_hookup_present"
+                "fuel_type"
               ],
               "additionalProperties": false,
               "properties": {
@@ -394,8 +396,7 @@
               "type": "object",
               "required": [
                 "fuel_type",
-                "over_age",
-                "gas_hookup_present"
+                "over_age"
               ],
               "additionalProperties": false,
               "properties": {
@@ -427,10 +428,8 @@
         "structure": {
           "type": "object",
           "required": [
-            "ceiling_height",
             "attic_type",
             "foundation_under_main_floor_space",
-            "primary_siding_material",
             "most_windows",
             "airtightness",
             "most_lights"
@@ -450,9 +449,7 @@
               "type": "object",
               "required": [
                 "type",
-                "insulation",
-                "insulation_material",
-                "estimated_insulation_depth"
+                "insulation"
               ],
               "additionalProperties": false,
               "properties": {
@@ -516,27 +513,6 @@
                     "Damaged/Inadequate",
                     "Adequate",
                     null
-                  ]
-                }
-              }
-            },
-            "primary_siding_material": {
-              "type": "object",
-              "required": [
-                "type"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "type": {
-                  "enum": [
-                    "Vinyl",
-                    "Wood",
-                    "Fiber Cement",
-                    "Stucco",
-                    "Composite",
-                    "Metal",
-                    "Brick",
-                    "Stone"
                   ]
                 }
               }
