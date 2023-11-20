@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "required": [
     "input_schema_version",
@@ -41,7 +41,7 @@
       "type": "string"
     },
     "county": {
-      "OneOf": [
+      "oneOf": [
         {
           "type": "string"
         },
@@ -54,7 +54,7 @@
       "type": "string"
     },
     "garageAreaSqFt": {
-      "OneOf": [
+      "oneOf": [
         {
           "type": "integer"
         },
@@ -70,7 +70,7 @@
       "type": "number"
     },
     "roofAreaSqM": {
-      "OneOf": [
+      "oneOf": [
         {
           "type": "number"
         },
@@ -114,7 +114,7 @@
       ]
     },
     "roofTreeOverlapRatio": {
-      "OneOf": [
+      "oneOf": [
         {
           "type": "number"
         },
