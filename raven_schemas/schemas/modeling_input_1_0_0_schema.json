@@ -538,10 +538,22 @@
                   },
                   "then": {
                     "properties": {
-                      "insulation": { "const": null, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null" },
-                      "insulation_material": { "not": { "const": null }, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation_material' != null" },
-                      "estimated_insulation_depth": { "not": { "const": null }, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'estimated_insulation_depth' != null" }
-                    }
+                      "insulation": { "const": null, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null" }
+                    },
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "insulation_material": { "const": null },
+                          "estimated_insulation_depth": { "const": null }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "insulation_material": { "not": { "const": null } },
+                          "estimated_insulation_depth": { "not": { "const": null } }
+                        }
+                      }
+                    ]
                   }
                 }
              ]
