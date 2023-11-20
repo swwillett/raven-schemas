@@ -1,8 +1,9 @@
 import json
 import re
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
+import jsonschema
 import pytest
 
 from raven_schemas import types
@@ -93,3 +94,42 @@ def test_schema_file_with_sample_data(schema_file):
         sample_data = json.load(sample_file)
 
     module.validate_json_single_version(sample_data, schema_name_enum, version)
+
+
+@pytest.mark.parametrize(
+    "attic_type, insulation, insulation_material, estimated_insulation_depth",
+    [
+        # fmt: off
+        pytest.param("Finished", None, None, None, id="Finished-insulation-required"),
+        pytest.param("Finished", "Adequate", "fiberglass (batts)", None, id="Finished-insulation_material-unwanted"),
+        pytest.param("Finished", "Adequate", "fiberglass (batts)", "0-4 inches", id="Finished-estimated_insulation_depth-unwanted"),
+        pytest.param("Cathedral Ceiling", "Adequate", None, None, id="Cathedral-insulation-unwanted"),
+        pytest.param("Cathedral Ceiling", None, "fiberglass (batts)", None, id="Cathedral-insulation_material-unwanted"),
+        pytest.param("Cathedral Ceiling", "Adequate", None, "0-4 inches", id="Cathedral-estimated_insulation_depth-unwanted"),
+        pytest.param("Vented", "Adequate", "fiberglass (batts)", "0-4 inches", id="Vented-insulation-unwanted"),
+        pytest.param("Vented", None, "fiberglass (batts)", None, id="Vented-insulation_material-required"),
+        pytest.param("Vented", None, None, "0-4 inches", id="Vented-estimated_insulation_depth-required"),
+        pytest.param("Unvented", "Adequate", "fiberglass (batts)", "0-4 inches", id="Unvented-insulation-unwanted"),
+        pytest.param("Unvented", None, "fiberglass (batts)", None, id="Unvented-insulation_material-required"),
+        pytest.param("Unvented", None, None, "0-4 inches", id="Unvented-estimated_insulation_depth-required"),
+        # fmt: on
+    ],
+)
+def test_invalid_attic_type_combinations(
+    valid_modeling_json,
+    attic_type: str,
+    insulation: Optional[str],
+    insulation_material: Optional[str],
+    estimated_insulation_depth: Optional[str],
+):
+    survey_attic_data = {
+        "type": attic_type,
+        "insulation": insulation,
+        "insulation_material": insulation_material,
+        "estimated_insulation_depth": estimated_insulation_depth,
+    }
+    valid_modeling_json["survey"]["structure"]["attic_type"] = survey_attic_data
+    with pytest.raises(jsonschema.exceptions.ValidationError):
+        module.validate_json_single_version(
+            valid_modeling_json, types.SchemaName.modeling_input, "1.0.0"
+        )

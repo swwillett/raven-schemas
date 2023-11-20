@@ -500,7 +500,51 @@
                     null
                   ]
                 }
-              }
+              },
+             "allOf": [
+                {
+                  "$comment": "Cathedral Ceiling should have neither 'insulation', 'insulation_material' nor 'estimated_insulation_depth'",
+                  "if": {
+                    "properties": { "type": { "const": "Cathedral Ceiling" } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'insulation' == null" },
+                      "insulation_material": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'insulation_material' == null" },
+                      "estimated_insulation_depth": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null" }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Finished Ceiling should have 'insulation', but neither 'insulation_material' nor 'estimated_insulation_depth'",
+                  "if": {
+                    "properties": { "type": { "const": "Finished" } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": {
+                        "not": { "const": null},
+                        "errorMessage": "'Finished' Ceiling should have 'insulation' != null"
+                      },
+                      "insulation_material": { "const": null, "errorMessage": "'Finished' Ceiling should have 'insulation_material' == null" },
+                      "estimated_insulation_depth": { "const": null, "errorMessage": "'Finished' Ceiling should have 'estimated_insulation_depth' == null" }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Vented/Unvented Ceiling should not have 'insulation' (the two others are either both null if no insulation or non null)",
+                  "if": {
+                    "properties": { "type": { "enum": ["Vented", "Unvented"] } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": { "const": null, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null" },
+                      "insulation_material": { "not": { "const": null }, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation_material' != null" },
+                      "estimated_insulation_depth": { "not": { "const": null }, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'estimated_insulation_depth' != null" }
+                    }
+                  }
+                }
+             ]
             },
             "foundation_under_main_floor_space": {
               "type": "object",
