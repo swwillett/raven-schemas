@@ -15,13 +15,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
     - uses: actions/checkout@v3
-      with:
-        submodules: true
-        lfs: true
 
     - name: Install poetry
       run: pipx install poetry
@@ -40,5 +35,5 @@ jobs:
 
     - run: poetry run pytest .
 
-    - name: validate modeling input schema v1.0.0
+    - name: smoke test - validate modeling input schema v1.0.0
       run: poetry run raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input_1_0_0_sample.json -v 1.0.0
