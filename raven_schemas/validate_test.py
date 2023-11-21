@@ -15,7 +15,7 @@ def valid_1_0_0_modeling_json():
 
 
 def validate_json_single_version__happy_path(valid_modeling_json):
-    module.find_valid_versions(
+    module.find_first_valid_version(
         valid_modeling_json,
         types.SchemaName.modeling_input,
         ["1.0.0"],
@@ -39,7 +39,7 @@ def test_validate_json_single_version__bad_version_sneaky_underscores():
 
 
 def test_find_valid_versions__happy_path(valid_1_0_0_modeling_json):
-    assert module.find_valid_versions(
+    assert module.find_first_valid_version(
         valid_1_0_0_modeling_json,
         types.SchemaName.modeling_input,
         ["1.0.0"],
@@ -48,13 +48,13 @@ def test_find_valid_versions__happy_path(valid_1_0_0_modeling_json):
 
 def test_find_valid_versions__no_versions_provided():
     with pytest.raises(ValueError):
-        module.find_valid_versions(
+        module.find_first_valid_version(
             {"test": "data"}, types.SchemaName.modeling_input, []
         )
 
 
 def test_find_valid_versions__no_versions_validated():
     with pytest.raises(module.ValidationError):
-        module.find_valid_versions(
+        module.find_first_valid_version(
             {"invalid": "data"}, types.SchemaName.modeling_input, ["1.0.0"]
         )

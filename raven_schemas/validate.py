@@ -33,7 +33,7 @@ def validate_json_single_version(
     return jsonschema.validate(schema=schema, instance=data)
 
 
-def find_valid_versions(
+def find_first_valid_version(
     json_data: dict, schema_name: types.SchemaName, versions: List[str]
 ) -> List[str]:
     """Find the first version in the list of versions that successfully validates

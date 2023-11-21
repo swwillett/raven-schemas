@@ -28,7 +28,7 @@ def validate_file(schema_name: str, schema_version: List[str], json_file: Path):
         json_data = json.load(f)
 
     try:
-        versions = validate.find_valid_versions(
+        versions = validate.find_first_valid_version(
             json_data, types.SchemaName[schema_name], schema_version
         )
     except validate.ValidationError as e:
