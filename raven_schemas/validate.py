@@ -1,13 +1,10 @@
 import json
-import os
-from pathlib import Path
 from typing import List
 
 import jsonschema
 
 from raven_schemas import types
-
-PACKAGE_DIR = Path(os.path.dirname(__file__))
+from raven_schemas.constants import PACKAGE_DIR
 
 
 class ValidationError(ValueError):

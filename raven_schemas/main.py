@@ -20,7 +20,7 @@ def raven_schemas():
     type=click.Choice([s.name for s in types.SchemaName]),
     required=True,
 )
-@click.option("-v", "--schema-version", multiple=True, required=True)
+@click.option("-v", "--schema-version", multiple=True)
 @click.option("-f", "--json-file", type=click.Path(exists=True), required=True)
 def validate_file(schema_name: str, schema_version: List[str], json_file: Path):
     """Validate the given JSON file against the given schema"""
