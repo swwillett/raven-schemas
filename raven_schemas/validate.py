@@ -56,6 +56,7 @@ def find_valid_versions(
             f"Errors validating {schema_name}:\n"
             + "\n  ".join([f"Version {e['version']}: {e['message']}" for e in errors])
         )
+
     raise ValueError(
-        f"Errors validating {schema_name}: no versions validated but no errors raised"
+        f"Errors validating {schema_name}: we should have encountered a valid version or an error"
     )
