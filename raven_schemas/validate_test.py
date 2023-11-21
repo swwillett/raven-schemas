@@ -2,7 +2,6 @@ import json
 
 import pytest
 
-from raven_schemas import types
 from raven_schemas import validate as module
 
 
@@ -15,9 +14,9 @@ def valid_1_0_0_modeling_json():
 
 
 def validate_json_single_version__happy_path(valid_modeling_json):
-    module.find_first_valid_version(
+    module.find_valid_versions(
         valid_modeling_json,
-        types.SchemaName.modeling_input,
+        "modeling_input",
         ["1.0.0"],
     )
 
@@ -25,7 +24,7 @@ def validate_json_single_version__happy_path(valid_modeling_json):
 def test_validate_json_single_version__bad_version():
     with pytest.raises(ValueError):
         module.validate_json_single_version(
-            {"test": "data"}, types.SchemaName.modeling_input, "not a real version"
+            {"test": "data"}, "modeling_input", "not a real version"
         )
 
 
@@ -33,28 +32,22 @@ def test_validate_json_single_version__bad_version_sneaky_underscores():
     # Since we're doing 'version.replace(".", "_")', we need to explicitly check for underscores first
     # or else version "1_0_0" will be interchangeable with "1.0.0"
     with pytest.raises(ValueError):
-        module.validate_json_single_version(
-            {"test": "data"}, types.SchemaName.modeling_input, "1_0_0"
-        )
+        module.validate_json_single_version({"test": "data"}, "modeling_input", "1_0_0")
 
 
 def test_find_valid_versions__happy_path(valid_1_0_0_modeling_json):
-    assert module.find_first_valid_version(
+    assert module.find_valid_versions(
         valid_1_0_0_modeling_json,
-        types.SchemaName.modeling_input,
+        "modeling_input",
         ["1.0.0"],
     ) == ["1.0.0"]
 
 
 def test_find_valid_versions__no_versions_provided():
     with pytest.raises(ValueError):
-        module.find_first_valid_version(
-            {"test": "data"}, types.SchemaName.modeling_input, []
-        )
+        module.find_valid_versions({"test": "data"}, "modeling_input", [])
 
 
 def test_find_valid_versions__no_versions_validated():
     with pytest.raises(module.ValidationError):
-        module.find_first_valid_version(
-            {"invalid": "data"}, types.SchemaName.modeling_input, ["1.0.0"]
-        )
+        module.find_valid_versions({"invalid": "data"}, "modeling_input", ["1.0.0"])

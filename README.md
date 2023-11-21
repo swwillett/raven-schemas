@@ -16,10 +16,14 @@ Cross-repo relevant JSON schemas.
     pip install poetry
     poetry install
     ```
+1. Check supported schema versions
+    ```bash
+    raven-schemas list-schemas
+    ```
 1. Check a test file against a schema!
     ```bash
     poetry shell
-    raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input_1_0_0_sample.json -v 1.0.0
+    raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input_1_0_0_sample_valid.json -v 1.0.0
     ```
 1. Follow [developer setup instructions](#developer-setup-instructions) and [Modifying a schema: checklist](#modifying-a-schema-checklist) below if you expect to check in code.
 

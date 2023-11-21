@@ -4,7 +4,7 @@ from typing import Optional
 import jsonschema
 import pytest
 
-from raven_schemas import types, validate
+from raven_schemas import validate
 from raven_schemas.constants import PACKAGE_DIR
 
 
@@ -51,7 +51,7 @@ def test_invalid_attic_type_combinations(
     valid_1_0_0_modeling_json["survey"]["structure"]["attic_type"] = survey_attic_data
     with pytest.raises(jsonschema.exceptions.ValidationError):
         validate.validate_json_single_version(
-            valid_1_0_0_modeling_json, types.SchemaName.modeling_input, "1.0.0"
+            valid_1_0_0_modeling_json, "modeling_input", "1.0.0"
         )
 
 
@@ -140,5 +140,5 @@ def test_valid_attic_type_combinations(
     }
     valid_1_0_0_modeling_json["survey"]["structure"]["attic_type"] = survey_attic_data
     validate.validate_json_single_version(
-        valid_1_0_0_modeling_json, types.SchemaName.modeling_input, "1.0.0"
+        valid_1_0_0_modeling_json, "modeling_input", "1.0.0"
     )

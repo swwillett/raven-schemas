@@ -6,19 +6,16 @@ from typing import Dict, Iterable, List, Tuple
 import jsonschema
 import pytest
 
-from raven_schemas import types
-from raven_schemas.constants import SCHEMA_DIR
+from raven_schemas import schemas as module
 
 # See tests below for example paths that these regexes should match
-SCHEMA_FILE_REGEX = (
-    r".*/(?P<schema_name>.*)_(?P<major>\d+)_(?P<minor>\d+)_(?P<patch>\d+)_schema.json"
-)
 SAMPLE_FILE_REGEX = r".*/(?P<schema_name>.*)_(?P<major>\d+)_(?P<minor>\d+)_(?P<patch>\d+)_sample_(?P<valid>(?:valid)|(?:invalid))_?(?P<suffix>.*)?.json"
-SCHEMA_DIR_FILES = list(SCHEMA_DIR.glob("*"))
 
 
 def test_schema_file_regex():
-    match = re.match(SCHEMA_FILE_REGEX, "schemas/modeling_input_1_2_3_schema.json")
+    match = re.match(
+        module.SCHEMA_FILE_REGEX, "schemas/modeling_input_1_2_3_schema.json"
+    )
     assert match is not None
     assert match.groupdict() == {
         "schema_name": "modeling_input",
@@ -67,29 +64,24 @@ def test_sample_file_regex(filename, expected_groupdict):
 
 @pytest.mark.parametrize(
     "filename",
-    SCHEMA_DIR_FILES,
+    module.SCHEMA_DIR_FILES,
 )
 def test_all_files_in_schemas_directory_are_schemas_or_samples(filename):
     filename_str = str(filename)
-    schema_match = re.match(SCHEMA_FILE_REGEX, filename_str)
+    schema_match = re.match(module.SCHEMA_FILE_REGEX, filename_str)
     sample_match = re.match(SAMPLE_FILE_REGEX, filename_str)
     match = schema_match or sample_match
     assert match
-    assert match.groupdict()["schema_name"] in types.SchemaName.__members__
-
-
-def _get_file_schema_and_version(file_path, regex):
-    match = re.match(regex, str(file_path))
-    assert (
-        match is not None
-    )  # This should never happen because we're only calling this function on files that match the regex
-    file_info = match.groupdict()
-    return (
-        file_info["schema_name"],
-        file_info["major"],
-        file_info["minor"],
-        file_info["patch"],
+    schema_name = match.groupdict()["schema_name"]
+    version = ".".join(
+        [
+            match.groupdict()["major"],
+            match.groupdict()["minor"],
+            match.groupdict()["patch"],
+        ]
     )
+    assert schema_name in module.get_known_schemas_and_versions()
+    assert version in module.get_known_schemas_and_versions()[schema_name]
 
 
 def _get_schema_files_and_sample_files() -> Iterable[Tuple[Path, Path]]:
@@ -97,15 +89,15 @@ def _get_schema_files_and_sample_files() -> Iterable[Tuple[Path, Path]]:
     raise ValueError if any sample files do not have matching schema files
     """
     schema_files = filter(
-        lambda f: re.match(SCHEMA_FILE_REGEX, str(f)), SCHEMA_DIR_FILES
+        lambda f: re.match(module.SCHEMA_FILE_REGEX, str(f)), module.SCHEMA_DIR_FILES
     )
     sample_files = filter(
-        lambda f: re.match(SAMPLE_FILE_REGEX, str(f)), SCHEMA_DIR_FILES
+        lambda f: re.match(SAMPLE_FILE_REGEX, str(f)), module.SCHEMA_DIR_FILES
     )
 
     sample_files_by_schema_and_version: Dict[Tuple, List[Path]] = {}
     for sample_file in sample_files:
-        schema_and_version_info = _get_file_schema_and_version(
+        schema_and_version_info = module.get_file_schema_and_version(
             sample_file, SAMPLE_FILE_REGEX
         )
         sample_files_by_schema_and_version.setdefault(
@@ -113,8 +105,8 @@ def _get_schema_files_and_sample_files() -> Iterable[Tuple[Path, Path]]:
         ).append(sample_file)
 
     for schema_file in schema_files:
-        schema_and_version_info = _get_file_schema_and_version(
-            schema_file, SCHEMA_FILE_REGEX
+        schema_and_version_info = module.get_file_schema_and_version(
+            schema_file, module.SCHEMA_FILE_REGEX
         )
         matching_sample_files = sample_files_by_schema_and_version.pop(
             schema_and_version_info, []

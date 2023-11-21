@@ -37,3 +37,6 @@ jobs:
 
     - name: smoke test - validate modeling input schema v1.0.0
       run: poetry run raven-schemas validate-file -s modeling_input -f raven_schemas/schemas/modeling_input_1_0_0_sample_valid.json -v 1.0.0
+
+    - name: print supported schemas
+      run: poetry run raven-schemas list-schemas

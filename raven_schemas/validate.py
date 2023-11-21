@@ -3,7 +3,6 @@ from typing import List
 
 import jsonschema
 
-from raven_schemas import types
 from raven_schemas.constants import PACKAGE_DIR
 
 
@@ -11,9 +10,7 @@ class ValidationError(ValueError):
     pass
 
 
-def validate_json_single_version(
-    data: dict, schema_name: types.SchemaName, version: str
-):
+def validate_json_single_version(data: dict, schema_name: str, version: str):
     """Validate the JSON schema for the given schema name at a specific version"""
     if "_" in version:
         raise ValueError(
@@ -21,9 +18,7 @@ def validate_json_single_version(
         )
     version_for_filename = version.replace(".", "_")
     schema_path = (
-        PACKAGE_DIR
-        / "schemas"
-        / f"{schema_name.value}_{version_for_filename}_schema.json"
+        PACKAGE_DIR / "schemas" / f"{schema_name}_{version_for_filename}_schema.json"
     )
     try:
         with open(schema_path) as f:
@@ -33,8 +28,8 @@ def validate_json_single_version(
     return jsonschema.validate(schema=schema, instance=data)
 
 
-def find_first_valid_version(
-    json_data: dict, schema_name: types.SchemaName, versions: List[str]
+def find_valid_versions(
+    json_data: dict, schema_name: str, versions: List[str]
 ) -> List[str]:
     """Find the first version in the list of versions that successfully validates
     @raises ValidationError if none of the versions validate.
