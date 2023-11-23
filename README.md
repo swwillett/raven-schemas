@@ -68,11 +68,11 @@ Let's say you want to add a new required field to the current schema
 1. add a new sample file as well   (eg. `raven_schemas/schemas/modeling_input_3_0_0_sample.json`)
 1. modify the sample file and schema as appropriate. See [Using JSON Schema](#using-json-schema) above for details.
 1. create your pull request, ensure all checks pass, get the PR reviewed, and land it.
-1. Identify code that handles this schema type - we'll call them **consumer(s)** if they receive the data described in this schema and **producer(s)** if they produce it - and update them appropriately.
-   a. **Consumer(s)** should be updated to be compatible with both the previous version *and* the new version.
-   a. **Producer(s)** should be update to produce only the new schema type if possible.
-   a. See [Using `raven-schemas`](#using-raven-schemas) below.
-   a. Producer and consumer code can be developed and reviewed in parallel, but the backwards-compatible **consumer** code must be deployed first to avoid sequencing issues.
+1. Identify code that handles this schema type - we'll call them **consumer(s)** if they receive the data described in this schema and **producer(s)** if they produce it - and update them appropriately:
+    * **Consumer(s)** should be updated to be compatible with both the previous version *and* the new version.
+    * **Producer(s)** should be update to produce only the new schema type if possible.
+    * See [Using `raven-schemas`](#using-raven-schemas) below.
+    * Producer and consumer code can be developed and reviewed in parallel, but the backwards-compatible **consumer** code must be deployed first to avoid sequencing issues.
 
 ## Using `raven-schemas`
 
