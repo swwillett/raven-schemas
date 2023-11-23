@@ -64,8 +64,8 @@ Let's say you want to add a new required field to the current schema
     * Schemas are versioned with [semver](https://semver.org/), in the format `major.minor.patch`, so you will increment one of those three numbers.
     * *note* schemas are currently consumed strictly based on version number, so bumping any sub-number will require updates to all consumers & producers.
 1. create a branch for your version.
-1. add a new version of the schema (eg. `raven_schemas/schemas/modeilng_input_3_0_0_schema.json`)
-1. add a new sample file as well   (eg. `raven_schemas/schemas/modeilng_input_3_0_0_sample.json`)
+1. add a new version of the schema (eg. `raven_schemas/schemas/modeling_input_3_0_0_schema.json`)
+1. add a new sample file as well   (eg. `raven_schemas/schemas/modeling_input_3_0_0_sample.json`)
 1. modify the sample file and schema as appropriate. See [Using JSON Schema](#using-json-schema) above for details.
 1. create your pull request, ensure all checks pass, get the PR reviewed, and land it.
 1. Identify code that handles this schema type - we'll call them **consumer(s)** if they receive the data described in this schema and **producer(s)** if they produce it - and update them appropriately.
