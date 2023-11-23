@@ -66,7 +66,7 @@ def test_sample_file_regex(filename, expected_groupdict):
     "filename",
     module.SCHEMA_DIR_FILES,
 )
-def test_all_files_in_schemas_directory_are_schemas_or_samples(filename):
+def test_all_filenames_in_schemas_directory_are_schemas_or_samples(filename):
     filename_str = str(filename)
     schema_match = re.match(module.SCHEMA_FILE_REGEX, filename_str)
     sample_match = re.match(SAMPLE_FILE_REGEX, filename_str)
