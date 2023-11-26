@@ -80,5 +80,6 @@ To use a schema in a downstream package, copy the relevant schema version files 
 
 Recommended schema validation libraries:
 
-- Typescript: [`@exodus/schemasafe`](https://github.com/ExodusMovement/schemasafe#installation)
+- Typescript: [`ajv`](https://ajv.js.org/)
+  - Note you will want to `import Ajv from 'ajv/dist/2020';` to activate draft 2020-12 support.
 - Python: [`jsonschema`](https://python-jsonschema.readthedocs.io/en/stable/)
