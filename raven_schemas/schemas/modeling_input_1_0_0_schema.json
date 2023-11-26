@@ -429,15 +429,15 @@
                     "properties": {
                       "insulation": {
                         "const": null,
-                        "errorMessage": "'Cathedral Ceiling' should have 'insulation' == null"
+                        "$comment": "'Cathedral Ceiling' should have 'insulation' == null"
                       },
                       "insulation_material": {
                         "const": null,
-                        "errorMessage": "'Cathedral Ceiling' should have 'insulation_material' == null"
+                        "$comment": "'Cathedral Ceiling' should have 'insulation_material' == null"
                       },
                       "estimated_insulation_depth": {
                         "const": null,
-                        "errorMessage": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null"
+                        "$comment": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null"
                       }
                     }
                   }
@@ -451,15 +451,15 @@
                     "properties": {
                       "insulation": {
                         "not": { "const": null },
-                        "errorMessage": "'Finished' Ceiling should have 'insulation' != null"
+                        "$comment": "'Finished' Ceiling should have 'insulation' != null"
                       },
                       "insulation_material": {
                         "const": null,
-                        "errorMessage": "'Finished' Ceiling should have 'insulation_material' == null"
+                        "$comment": "'Finished' Ceiling should have 'insulation_material' == null"
                       },
                       "estimated_insulation_depth": {
                         "const": null,
-                        "errorMessage": "'Finished' Ceiling should have 'estimated_insulation_depth' == null"
+                        "$comment": "'Finished' Ceiling should have 'estimated_insulation_depth' == null"
                       }
                     }
                   }
@@ -473,7 +473,7 @@
                     "properties": {
                       "insulation": {
                         "const": null,
-                        "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null"
+                        "$comment": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null"
                       }
                     },
                     "anyOf": [
