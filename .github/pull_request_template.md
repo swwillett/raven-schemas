@@ -1,4 +1,3 @@
 ## Purpose
 
-
 ## Manual testing notes

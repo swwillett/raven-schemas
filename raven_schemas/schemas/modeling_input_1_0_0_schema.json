@@ -134,11 +134,7 @@
       "properties": {
         "systems": {
           "type": "object",
-          "required": [
-            "primary_heating",
-            "cooling",
-            "water_heating"
-          ],
+          "required": ["primary_heating", "cooling", "water_heating"],
           "additionalProperties": false,
           "properties": {
             "primary_heating": {
@@ -155,12 +151,7 @@
               "properties": {
                 "fuel_type": {
                   "type": "string",
-                  "enum": [
-                    "Gas",
-                    "Oil",
-                    "Propane",
-                    "Electricity"
-                  ]
+                  "enum": ["Gas", "Oil", "Propane", "Electricity"]
                 },
                 "ducted_heating": {
                   "type": "boolean"
@@ -172,11 +163,7 @@
                   "type": "boolean"
                 },
                 "furnace_vent": {
-                  "enum": [
-                    "PVC",
-                    "Metal",
-                    null
-                  ]
+                  "enum": ["PVC", "Metal", null]
                 },
                 "system": {
                   "enum": [
@@ -190,11 +177,7 @@
                   ]
                 },
                 "insulated_ducts": {
-                  "enum": [
-                    "Damaged/Inadequate",
-                    "Adequate",
-                    null
-                  ]
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
                 },
                 "dist_type": {
                   "enum": [
@@ -208,10 +191,7 @@
             },
             "cooling": {
               "type": "object",
-              "required": [
-                "type",
-                "over_age"
-              ],
+              "required": ["type", "over_age"],
               "properties": {
                 "type": {
                   "type": "string",
@@ -224,11 +204,7 @@
                   ]
                 },
                 "over_age": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 }
               }
             },
@@ -258,10 +234,7 @@
                   "type": "boolean"
                 },
                 "water_pipe_insulation": {
-                  "enum": [
-                    "Damaged/Inadequate",
-                    "Adequate"
-                  ]
+                  "enum": ["Damaged/Inadequate", "Adequate"]
                 },
                 "size": {
                   "type": "string"
@@ -310,45 +283,27 @@
           "properties": {
             "dishwasher": {
               "type": "object",
-              "required": [
-                "over_age"
-              ],
+              "required": ["over_age"],
               "additionalProperties": false,
               "properties": {
                 "functional": {
                   "type": "boolean"
                 },
                 "over_age": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 }
               }
             },
             "cooking": {
               "type": "object",
-              "required": [
-                "fuel_type",
-                "gas_hookup_present"
-              ],
+              "required": ["fuel_type", "gas_hookup_present"],
               "additionalProperties": false,
               "properties": {
                 "fuel_type": {
-                  "enum": [
-                    "Gas",
-                    "Electric",
-                    "Hybrid",
-                    null
-                  ]
+                  "enum": ["Gas", "Electric", "Hybrid", null]
                 },
                 "gas_hookup_present": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 },
                 "type": {
                   "enum": [
@@ -368,65 +323,37 @@
             },
             "refrigerator": {
               "type": "object",
-              "required": [
-                "over_age"
-              ],
+              "required": ["over_age"],
               "additionalProperties": false,
               "properties": {
                 "over_age": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 }
               }
             },
             "washer": {
               "type": "object",
-              "required": [
-                "over_age"
-              ],
+              "required": ["over_age"],
               "additionalProperties": false,
               "properties": {
                 "over_age": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 }
               }
             },
             "dryer": {
               "type": "object",
-              "required": [
-                "fuel_type",
-                "over_age",
-                "gas_hookup_present"
-              ],
+              "required": ["fuel_type", "over_age", "gas_hookup_present"],
               "additionalProperties": false,
               "properties": {
                 "fuel_type": {
-                  "enum": [
-                    "Gas",
-                    "Electric",
-                    null
-                  ]
+                  "enum": ["Gas", "Electric", null]
                 },
                 "over_age": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 },
                 "gas_hookup_present": {
-                  "enum": [
-                    true,
-                    false,
-                    null
-                  ]
+                  "enum": [true, false, null]
                 }
               }
             }
@@ -447,12 +374,7 @@
           "properties": {
             "ceiling_height": {
               "type": "string",
-              "enum": [
-                "8 ft",
-                "9 ft",
-                "10 ft",
-                "Cathedral Ceiling"
-              ]
+              "enum": ["8 ft", "9 ft", "10 ft", "Cathedral Ceiling"]
             },
             "attic_type": {
               "type": "object",
@@ -473,11 +395,7 @@
                   ]
                 },
                 "insulation": {
-                  "enum": [
-                    "Damaged/Inadequate",
-                    "Adequate",
-                    null
-                  ]
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
                 },
                 "insulation_material": {
                   "enum": [
@@ -501,7 +419,7 @@
                   ]
                 }
               },
-             "allOf": [
+              "allOf": [
                 {
                   "$comment": "Cathedral Ceiling should have neither 'insulation', 'insulation_material' nor 'estimated_insulation_depth'",
                   "if": {
@@ -509,9 +427,18 @@
                   },
                   "then": {
                     "properties": {
-                      "insulation": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'insulation' == null" },
-                      "insulation_material": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'insulation_material' == null" },
-                      "estimated_insulation_depth": { "const": null, "errorMessage": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null" }
+                      "insulation": {
+                        "const": null,
+                        "errorMessage": "'Cathedral Ceiling' should have 'insulation' == null"
+                      },
+                      "insulation_material": {
+                        "const": null,
+                        "errorMessage": "'Cathedral Ceiling' should have 'insulation_material' == null"
+                      },
+                      "estimated_insulation_depth": {
+                        "const": null,
+                        "errorMessage": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null"
+                      }
                     }
                   }
                 },
@@ -523,11 +450,17 @@
                   "then": {
                     "properties": {
                       "insulation": {
-                        "not": { "const": null},
+                        "not": { "const": null },
                         "errorMessage": "'Finished' Ceiling should have 'insulation' != null"
                       },
-                      "insulation_material": { "const": null, "errorMessage": "'Finished' Ceiling should have 'insulation_material' == null" },
-                      "estimated_insulation_depth": { "const": null, "errorMessage": "'Finished' Ceiling should have 'estimated_insulation_depth' == null" }
+                      "insulation_material": {
+                        "const": null,
+                        "errorMessage": "'Finished' Ceiling should have 'insulation_material' == null"
+                      },
+                      "estimated_insulation_depth": {
+                        "const": null,
+                        "errorMessage": "'Finished' Ceiling should have 'estimated_insulation_depth' == null"
+                      }
                     }
                   }
                 },
@@ -538,7 +471,10 @@
                   },
                   "then": {
                     "properties": {
-                      "insulation": { "const": null, "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null" }
+                      "insulation": {
+                        "const": null,
+                        "errorMessage": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null"
+                      }
                     },
                     "anyOf": [
                       {
@@ -550,20 +486,19 @@
                       {
                         "properties": {
                           "insulation_material": { "not": { "const": null } },
-                          "estimated_insulation_depth": { "not": { "const": null } }
+                          "estimated_insulation_depth": {
+                            "not": { "const": null }
+                          }
                         }
                       }
                     ]
                   }
                 }
-             ]
+              ]
             },
             "foundation_under_main_floor_space": {
               "type": "object",
-              "required": [
-                "type",
-                "insulation"
-              ],
+              "required": ["type", "insulation"],
               "additionalProperties": false,
               "properties": {
                 "type": {
@@ -576,19 +511,13 @@
                   ]
                 },
                 "insulation": {
-                  "enum": [
-                    "Damaged/Inadequate",
-                    "Adequate",
-                    null
-                  ]
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
                 }
               }
             },
             "primary_siding_material": {
               "type": "object",
-              "required": [
-                "type"
-              ],
+              "required": ["type"],
               "additionalProperties": false,
               "properties": {
                 "type": {
@@ -615,9 +544,7 @@
             },
             "airtightness": {
               "type": "object",
-              "required": [
-                "level"
-              ],
+              "required": ["level"],
               "additionalProperties": false,
               "properties": {
                 "level": {
@@ -633,17 +560,11 @@
             },
             "most_lights": {
               "type": "object",
-              "required": [
-                "type"
-              ],
+              "required": ["type"],
               "additionalProperties": false,
               "properties": {
                 "type": {
-                  "enum": [
-                    "Incandescent",
-                    "CFL",
-                    "LED"
-                  ]
+                  "enum": ["Incandescent", "CFL", "LED"]
                 }
               }
             }
@@ -651,17 +572,12 @@
         },
         "electrical": {
           "type": "object",
-          "required": [
-            "electrical_panel",
-            "whole_house_battery"
-          ],
+          "required": ["electrical_panel", "whole_house_battery"],
           "additionalProperties": false,
           "properties": {
             "electrical_panel": {
               "type": "object",
-              "required": [
-                "is_over_200amps"
-              ],
+              "required": ["is_over_200amps"],
               "additionalProperties": false,
               "properties": {
                 "is_over_200amps": {
@@ -671,9 +587,7 @@
             },
             "whole_house_battery": {
               "type": "object",
-              "required": [
-                "present"
-              ],
+              "required": ["present"],
               "additionalProperties": false,
               "properties": {
                 "present": {
