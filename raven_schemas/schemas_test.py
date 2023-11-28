@@ -127,8 +127,17 @@ def _get_schema_files_and_sample_files() -> Iterable[Tuple[Path, Path]]:
 def pytest_generate_tests(metafunc):
     """Dynamically generate tests for every version of every schema in the schemas directory."""
     if "schema_file_and_sample_file" in metafunc.fixturenames:
-        schema_file = _get_schema_files_and_sample_files()
-        metafunc.parametrize("schema_file_and_sample_file", schema_file)
+        schema_files_and_sample_files = _get_schema_files_and_sample_files()
+        metafunc.parametrize(
+            "schema_file_and_sample_file", schema_files_and_sample_files
+        )
+
+    if "schema_file" in metafunc.fixturenames:
+        schema_files = filter(
+            lambda f: re.match(module.SCHEMA_FILE_REGEX, str(f)),
+            module.SCHEMA_DIR_FILES,
+        )
+        metafunc.parametrize("schema_file", schema_files)
 
 
 def test_schema_file_with_sample_data(schema_file_and_sample_file):
@@ -145,3 +154,25 @@ def test_schema_file_with_sample_data(schema_file_and_sample_file):
     else:
         with pytest.raises(jsonschema.exceptions.ValidationError):
             jsonschema.validate(schema=schema, instance=sample_data)
+
+
+def test_schema_file_is_valid(schema_file):
+    """Test that each schema file is valid against a strict variant of the draft 2020-12 metaschema.
+    Since the draft 2020-12 schema is not strict by default,
+    we create a variant of it that disallows unevaluated properties.
+    This allows us to catch typos in schema properties which would otherwise go unnoticed.
+
+    It also aligns with the TypeScript library we use (Ajv), that validate schemas strictly by default.
+    """
+    schema = json.loads(schema_file.read_text())
+    strict_validator = jsonschema.Draft202012Validator(
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://json-schema.org/draft/2020-12/strict",
+            "$ref": "https://json-schema.org/draft/2020-12/schema",
+            "unevaluatedProperties": False,
+        }
+    )
+
+    errors = list(strict_validator.iter_errors(schema))
+    assert not errors
