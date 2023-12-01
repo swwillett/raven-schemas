@@ -287,7 +287,7 @@
               "additionalProperties": false,
               "properties": {
                 "functional": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 },
                 "over_age": {
                   "enum": [true, false, null]
@@ -310,14 +310,15 @@
                     "Cooktop only",
                     "Range",
                     "Oven only",
-                    "Cooktop and Oven"
+                    "Cooktop and Oven",
+                    null
                   ]
                 },
                 "functional": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 },
                 "over_age": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 }
               }
             },
