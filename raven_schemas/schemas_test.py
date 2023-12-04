@@ -176,3 +176,24 @@ def test_schema_file_is_valid(schema_file):
 
     errors = list(strict_validator.iter_errors(schema))
     assert not errors
+
+
+def test_schemas_contain_correct_version():
+    """Test that, for each schema in the schemas directory, the version in the schema matches the version in the filename."""
+    schema_files = filter(
+        lambda f: re.match(module.SCHEMA_FILE_REGEX, str(f)),
+        module.SCHEMA_DIR_FILES,
+    )
+    for schema_file in schema_files:
+        schema = json.loads(schema_file.read_text())
+        schema_name, major, minor, patch = module.get_file_schema_and_version(
+            schema_file, module.SCHEMA_FILE_REGEX
+        )
+        input_schema_version = (
+            schema.get("properties", {}).get("input_schema_version", {}).get("const")
+        )
+
+        if input_schema_version is not None:
+            assert input_schema_version == f"{major}.{minor}.{patch}"
+        else:
+            pass
