@@ -30,8 +30,6 @@ def test_valid_roof_material_combination(
 
     valid_1_1_1_modeling_json["roofMaterial"] = valid_roofMaterial
 
-    print(valid_roofMaterial)
-
     validate.validate_json_single_version(
         valid_1_1_1_modeling_json, "modeling_input", "1.1.1"
     )
