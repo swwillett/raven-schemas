@@ -1,0 +1,830 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "input_schema_version",
+    "address",
+    "bedroomCount",
+    "buildYear",
+    "buildingAreaSqFt",
+    "city",
+    "county",
+    "energyReportSlug",
+    "garageAreaSqFt",
+    "latitude",
+    "longitude",
+    "roofAreaSqM",
+    "roofMaterial",
+    "roofTreeOverlapRatio",
+    "state",
+    "storyCount",
+    "survey"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "input_schema_version": {
+      "const": "1.1.3"
+    },
+    "address": {
+      "type": "string"
+    },
+    "bedroomCount": {
+      "type": "integer"
+    },
+    "buildYear": {
+      "type": "integer"
+    },
+    "buildingAreaSqFt": {
+      "type": "integer"
+    },
+    "city": {
+      "type": "string"
+    },
+    "county": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "energyReportSlug": {
+      "type": "string"
+    },
+    "garageAreaSqFt": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "roofAreaSqM": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "roofMaterial": {
+      "type": "string",
+      "$comment": "Propinc values are from 'Architectural Shingles' to 'Other'. Redfin values are from 'Tile' to 'Common Roof'.",
+      "enum": [
+        "NotFound",
+        "Architectural Shingles",
+        "Asbestos Shingles",
+        "Asphalt/Composite Shingles",
+        "Built-up/Tar with Gravel",
+        "Built-up/Tar without Gravel",
+        "Clay Tiles",
+        "Concrete/Stone Tiles",
+        "Fiberglass/Fiber-Cement/Masonite",
+        "Metal",
+        "Rolled Composition",
+        "Rubber Membrane",
+        "Slate",
+        "Solar Shingles (Photovoltaic)",
+        "Synthetic/Plastic Shingles",
+        "Unspecified Shingles",
+        "Wood Shakes/Shingles",
+        "Shake",
+        "Barrel",
+        "Other",
+        "Tile",
+        "Flat Tile",
+        "Tile/Slate",
+        "Spanish Tile",
+        "Shingle",
+        "Composition",
+        "Concrete",
+        "Bitumen",
+        "Asphalt",
+        "Asbestos Shingle",
+        "Common Roof"
+      ]
+    },
+    "roofTreeOverlapRatio": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state": {
+      "type": "string"
+    },
+    "storyCount": {
+      "type": "integer"
+    },
+    "survey": {
+      "type": "object",
+      "properties": {
+        "survey_schema_version": {
+          "type": "string",
+          "enum": ["1.0.1"]
+        },
+        "systems": {
+          "type": "object",
+          "required": ["primary_heating", "cooling", "water_heating"],
+          "additionalProperties": false,
+          "properties": {
+            "primary_heating": {
+              "type": "object",
+              "required": [
+                "fuel_type",
+                "functional",
+                "over_age",
+                "furnace_vent",
+                "system",
+                "insulated_ducts",
+                "dist_type"
+              ],
+              "properties": {
+                "fuel_type": {
+                  "type": "string",
+                  "enum": ["Gas", "Oil", "Propane", "Electricity"]
+                },
+                "ducted_heating": {
+                  "type": "boolean"
+                },
+                "functional": {
+                  "type": "boolean"
+                },
+                "over_age": {
+                  "type": "boolean"
+                },
+                "furnace_vent": {
+                  "enum": ["PVC", "Metal", null]
+                },
+                "system": {
+                  "enum": [
+                    "Ducted Heat Pump",
+                    "Furnace",
+                    "Boiler",
+                    "Baseboard",
+                    "Mini Split",
+                    "Wall Furnace",
+                    null
+                  ]
+                },
+                "insulated_ducts": {
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
+                },
+                "dist_type": {
+                  "enum": [
+                    "Radiator",
+                    "Radiant Floor",
+                    "Radiant Baseboard",
+                    null
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "$comment": "Ducted heating is only valid with Furnace or Ducted Heat Pump",
+                  "if": {
+                    "properties": {
+                      "ducted_heating": {
+                        "const": true
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "system": {
+                        "enum": ["Ducted Heat Pump", "Furnace"]
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "system": {
+                        "enum": [
+                          "Baseboard",
+                          "Boiler",
+                          "Mini Split",
+                          "Wall Furnace",
+                          null
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Non-electric furnace with ducts must have a furnace vent.",
+                  "not": {
+                    "allOf": [
+                      {
+                        "properties": {
+                          "system": {
+                            "const": "Furnace"
+                          },
+                          "ducted_heating": {
+                            "const": true
+                          },
+                          "furnace_vent": {
+                            "const": null
+                          },
+                          "fuel_type": {
+                            "not": {
+                              "const": "Electricity"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "$comment": "Only boilers should have non-null dist_type",
+                  "if": {
+                    "properties": {
+                      "dist_type": {
+                        "not": {
+                          "const": null
+                        }
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "system": {
+                        "const": "Boiler"
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Only electric heating systems should be MiniSplit or Ducted Heat Pump",
+                  "if": {
+                    "properties": {
+                      "system": {
+                        "enum": ["Mini Split", "Ducted Heat Pump"]
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "fuel_type": {
+                        "const": "Electricity"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "cooling": {
+              "type": "object",
+              "required": ["type", "over_age"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "None",
+                    "Condenser",
+                    "Ducted Heat Pump",
+                    "Mini Split",
+                    "Window Units"
+                  ]
+                },
+                "over_age": {
+                  "enum": [true, false, null]
+                }
+              },
+              "allOf": [
+                {
+                  "$comment": "Over_age set to null, but Cooling type isn't None",
+                  "if": {
+                    "properties": {
+                      "over_age": {
+                        "const": null
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "type": {
+                        "const": "None"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "water_heating": {
+              "type": "object",
+              "required": [
+                "type",
+                "functional",
+                "over_age",
+                "water_pipe_insulation"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Gas Tank",
+                    "Gas Tankless",
+                    "Electric Tank",
+                    "Electric Tankless",
+                    "Heat Pump Tank"
+                  ]
+                },
+                "functional": {
+                  "type": "boolean"
+                },
+                "over_age": {
+                  "type": "boolean"
+                },
+                "water_pipe_insulation": {
+                  "enum": ["Damaged/Inadequate", "Adequate"]
+                },
+                "size": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "$comment": "If heating is a mini split, cooling must be as well",
+              "if": {
+                "properties": {
+                  "primary_heating": {
+                    "properties": {
+                      "system": {
+                        "const": "Mini Split"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "cooling": {
+                    "properties": {
+                      "type": {
+                        "const": "Mini Split"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$comment": "If heating is ducted heat pump, cooling must be as well",
+              "if": {
+                "properties": {
+                  "primary_heating": {
+                    "properties": {
+                      "system": {
+                        "const": "Ducted Heat Pump"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "cooling": {
+                    "properties": {
+                      "type": {
+                        "const": "Ducted Heat Pump"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "appliances": {
+          "type": "object",
+          "required": [
+            "dishwasher",
+            "cooking",
+            "refrigerator",
+            "washer",
+            "dryer"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "dishwasher": {
+              "type": "object",
+              "required": ["over_age"],
+              "additionalProperties": false,
+              "properties": {
+                "functional": {
+                  "enum": [true, false, null]
+                },
+                "over_age": {
+                  "enum": [true, false, null]
+                }
+              }
+            },
+            "cooking": {
+              "type": "object",
+              "required": ["fuel_type", "gas_hookup_present"],
+              "additionalProperties": false,
+              "properties": {
+                "fuel_type": {
+                  "enum": ["Gas", "Electric", "Hybrid", null]
+                },
+                "gas_hookup_present": {
+                  "enum": [true, false, null]
+                },
+                "type": {
+                  "enum": ["Range", "Cooktop and Oven", null]
+                },
+                "functional": {
+                  "enum": [true, false, null]
+                },
+                "over_age": {
+                  "enum": [true, false, null]
+                }
+              },
+              "allOf": [
+                {
+                  "$comment": "Either cooking.fuel_type or cooking.gas_hookup_present must be present, not both",
+                  "if": {
+                    "properties": {
+                      "fuel_type": {
+                        "not": {
+                          "const": null
+                        }
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "gas_hookup_present": {
+                        "const": null
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Either cooking.fuel_type or cooking.gas_hookup_present must be present, not both",
+                  "if": {
+                    "properties": {
+                      "fuel_type": {
+                        "const": null
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "gas_hookup_present": {
+                        "not": {
+                          "const": null
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "refrigerator": {
+              "type": "object",
+              "required": ["over_age"],
+              "additionalProperties": false,
+              "properties": {
+                "over_age": {
+                  "enum": [true, false, null]
+                }
+              }
+            },
+            "washer": {
+              "type": "object",
+              "required": ["over_age"],
+              "additionalProperties": false,
+              "properties": {
+                "over_age": {
+                  "enum": [true, false, null]
+                }
+              }
+            },
+            "dryer": {
+              "type": "object",
+              "required": ["fuel_type", "over_age", "gas_hookup_present"],
+              "additionalProperties": false,
+              "properties": {
+                "fuel_type": {
+                  "enum": ["Gas", "Electric", null]
+                },
+                "over_age": {
+                  "enum": [true, false, null]
+                },
+                "gas_hookup_present": {
+                  "enum": [true, false, null]
+                }
+              },
+              "allOf": [
+                {
+                  "$comment": "When dryer fuel type is provided, over_age must be provided and gas_hookup_present must be null",
+                  "if": {
+                    "properties": {
+                      "fuel_type": {
+                        "not": {
+                          "const": null
+                        }
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "over_age": {
+                        "not": {
+                          "const": null
+                        }
+                      },
+                      "gas_hookup_present": {
+                        "const": null
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "When dryer gas_hookup_present is provided, fuel_type and over_age must be null",
+                  "if": {
+                    "properties": {
+                      "fuel_type": {
+                        "const": null
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "over_age": {
+                        "const": null
+                      },
+                      "gas_hookup_present": {
+                        "not": {
+                          "const": null
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "structure": {
+          "type": "object",
+          "required": [
+            "ceiling_height",
+            "attic_type",
+            "foundation_under_main_floor_space",
+            "primary_siding_material",
+            "most_windows",
+            "airtightness",
+            "most_lights"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ceiling_height": {
+              "type": "string",
+              "enum": ["8 ft", "9 ft", "10 ft", "Cathedral Ceiling"]
+            },
+            "attic_type": {
+              "type": "object",
+              "required": [
+                "type",
+                "insulation",
+                "insulation_material",
+                "estimated_insulation_depth"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Vented",
+                    "Unvented",
+                    "Finished",
+                    "Cathedral Ceiling"
+                  ]
+                },
+                "insulation": {
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
+                },
+                "insulation_material": {
+                  "enum": [
+                    "fiberglass (batts)",
+                    "fiberglass (loose)",
+                    "mineral wool (batts)",
+                    "mineral wool (loose)",
+                    "cellulose",
+                    "spray foam",
+                    null
+                  ]
+                },
+                "estimated_insulation_depth": {
+                  "enum": [
+                    "<4 inches",
+                    "4-6 inches",
+                    "6-8 inches",
+                    "8-10 inches",
+                    "10+ inches",
+                    null
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "$comment": "Cathedral Ceiling should have neither 'insulation', 'insulation_material' nor 'estimated_insulation_depth'",
+                  "if": {
+                    "properties": { "type": { "const": "Cathedral Ceiling" } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": {
+                        "const": null,
+                        "$comment": "'Cathedral Ceiling' should have 'insulation' == null"
+                      },
+                      "insulation_material": {
+                        "const": null,
+                        "$comment": "'Cathedral Ceiling' should have 'insulation_material' == null"
+                      },
+                      "estimated_insulation_depth": {
+                        "const": null,
+                        "$comment": "'Cathedral Ceiling' should have 'estimated_insulation_depth' == null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Finished Ceiling should have 'insulation', but neither 'insulation_material' nor 'estimated_insulation_depth'",
+                  "if": {
+                    "properties": { "type": { "const": "Finished" } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": {
+                        "not": { "const": null },
+                        "$comment": "'Finished' Ceiling should have 'insulation' != null"
+                      },
+                      "insulation_material": {
+                        "const": null,
+                        "$comment": "'Finished' Ceiling should have 'insulation_material' == null"
+                      },
+                      "estimated_insulation_depth": {
+                        "const": null,
+                        "$comment": "'Finished' Ceiling should have 'estimated_insulation_depth' == null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "$comment": "Vented/Unvented Ceiling should not have 'insulation' (the two others are either both null if no insulation or non null)",
+                  "if": {
+                    "properties": { "type": { "enum": ["Vented", "Unvented"] } }
+                  },
+                  "then": {
+                    "properties": {
+                      "insulation": {
+                        "const": null,
+                        "$comment": "'Vented' / 'Unvented' Ceiling should have 'insulation' == null"
+                      }
+                    },
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "insulation_material": { "const": null },
+                          "estimated_insulation_depth": { "const": null }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "insulation_material": { "not": { "const": null } },
+                          "estimated_insulation_depth": {
+                            "not": { "const": null }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "foundation_under_main_floor_space": {
+              "type": "object",
+              "required": ["type", "insulation"],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Unheated Basement",
+                    "Heated Basement",
+                    "Slab",
+                    "Vented Crawlspace",
+                    "Unvented Crawlspace"
+                  ]
+                },
+                "insulation": {
+                  "enum": ["Damaged/Inadequate", "Adequate", null]
+                }
+              }
+            },
+            "primary_siding_material": {
+              "type": "object",
+              "required": ["type"],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Vinyl",
+                    "Wood",
+                    "Fiber Cement",
+                    "Stucco",
+                    "Composite",
+                    "Metal",
+                    "Brick",
+                    "Stone"
+                  ]
+                }
+              }
+            },
+            "most_windows": {
+              "enum": [
+                "Single Pane, Metal",
+                "Single Pane, Non-Metal",
+                "Double Pane, Metal",
+                "Double Pane, Non-Metal"
+              ]
+            },
+            "airtightness": {
+              "type": "object",
+              "required": ["level"],
+              "additionalProperties": false,
+              "properties": {
+                "level": {
+                  "enum": [
+                    "1=leaky",
+                    "2=somewhat leaky",
+                    "3=average",
+                    "4=less leaky",
+                    "5=airtight"
+                  ]
+                }
+              }
+            },
+            "most_lights": {
+              "type": "object",
+              "required": ["type"],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": ["Incandescent", "CFL", "LED"]
+                }
+              }
+            }
+          }
+        },
+        "electrical": {
+          "type": "object",
+          "required": ["electrical_panel", "whole_house_battery"],
+          "additionalProperties": false,
+          "properties": {
+            "electrical_panel": {
+              "type": "object",
+              "required": ["is_over_200amps"],
+              "additionalProperties": false,
+              "properties": {
+                "is_over_200amps": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "whole_house_battery": {
+              "type": "object",
+              "required": ["present"],
+              "additionalProperties": false,
+              "properties": {
+                "present": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

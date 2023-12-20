@@ -20,7 +20,7 @@ def valid_1_1_2_modeling_json():
     "estimated_insulation_depth, cooking_type",
     [["<4 inches", "Cooktop Only"], ["0-4 inches", "Cooktop and Oven"]],
 )
-def test_valid_roof_material_combination(
+def test_invalid_cooking_type_or_estimated_insulation_depth_combination(
     valid_1_1_2_modeling_json,
     estimated_insulation_depth: Optional[str],
     cooking_type: Optional[str],

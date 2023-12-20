@@ -12,6 +12,24 @@ The version format follows the Semantic Versioning pattern: `MAJOR.MINOR.PATCH`
 
 ## Versions
 
+### PATCH [1.1.3] - [12/19/2023]
+
+#### Summary
+
+- Added support for 'Barrel' roof material type
+
+### PATCH [1.1.2] - [12/16/2023]
+
+#### Summary
+
+- Changed '0-4 inches' estimated insulation depth to '<4 inches' and updated cooking type to 'Cooktop and Oven' or 'Range'
+
+### PATCH [1.1.1] - [12/14/2023]
+
+#### Summary
+
+- Added support for 'Shake' roof material type
+
 ### MINOR [1.1.0] - [12/5/2023]
 
 #### Summary
