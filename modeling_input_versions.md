@@ -12,17 +12,32 @@ The version format follows the Semantic Versioning pattern: `MAJOR.MINOR.PATCH`
 
 ## Versions
 
+### PATCH [1.1.5] - [12/22/2023]
+
+#### Summary
+
+- `Condenser` -> `Central AC`, Added `None` heating fuel type
+- Survey schema version -> 1.0.3
+
+### PATCH [1.1.4] - [12/21/2023]
+
+#### Summary
+
+- Removed dist type on survey
+- Survey schema version -> 1.0.2
+
 ### PATCH [1.1.3] - [12/19/2023]
 
 #### Summary
 
-- Added support for 'Barrel' roof material type
+- Added support for `Barrel` roof material type
 
 ### PATCH [1.1.2] - [12/16/2023]
 
 #### Summary
 
-- Changed '0-4 inches' estimated insulation depth to '<4 inches' and updated cooking type to 'Cooktop and Oven' or 'Range'
+- Changed `0-4 inches` estimated insulation depth to `<4 inches` and updated cooking type to `Cooktop and Oven` or `Range`
+- Survey schema version -> 1.0.1
 
 ### PATCH [1.1.1] - [12/14/2023]
 

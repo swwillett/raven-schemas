@@ -15,7 +15,7 @@
   "state": "CA",
   "storyCount": 1,
   "survey": {
-    "survey_schema_version": "1.0.1",
+    "survey_schema_version": "1.0.2",
     "appliances": {
       "cooking": {
         "fuel_type": "Oil",

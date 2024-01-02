@@ -23,7 +23,7 @@
   "additionalProperties": false,
   "properties": {
     "input_schema_version": {
-      "const": "1.1.4"
+      "const": "1.1.5"
     },
     "address": {
       "type": "string"
@@ -137,7 +137,7 @@
       "properties": {
         "survey_schema_version": {
           "type": "string",
-          "enum": ["1.0.2"]
+          "enum": ["1.0.3"]
         },
         "systems": {
           "type": "object",
@@ -158,16 +158,16 @@
               "properties": {
                 "fuel_type": {
                   "type": "string",
-                  "enum": ["Gas", "Oil", "Propane", "Electricity"]
+                  "enum": ["Gas", "Oil", "Propane", "Electricity", "None"]
                 },
                 "ducted_heating": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 },
                 "functional": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 },
                 "over_age": {
-                  "type": "boolean"
+                  "enum": [true, false, null]
                 },
                 "furnace_vent": {
                   "enum": ["PVC", "Metal", null]
@@ -188,6 +188,38 @@
                 }
               },
               "allOf": [
+                {
+                  "$comment": "Fuel_type set to None, but ducted_heating, functional, over_age, furnace_vent, system and insulated_ducts aren't null",
+                  "if": {
+                    "properties": {
+                      "fuel_type": {
+                        "const": "None"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "ducted_heating": {
+                        "const": null
+                      },
+                      "functional": {
+                        "const": null
+                      },
+                      "over_age": {
+                        "const": null
+                      },
+                      "furnace_vent": {
+                        "const": null
+                      },
+                      "system": {
+                        "const": null
+                      },
+                      "insulated_ducts": {
+                        "const": null
+                      }
+                    }
+                  }
+                },
                 {
                   "$comment": "Ducted heating is only valid with Furnace or Ducted Heat Pump",
                   "if": {
@@ -270,7 +302,7 @@
                   "type": "string",
                   "enum": [
                     "None",
-                    "Condenser",
+                    "Central AC",
                     "Ducted Heat Pump",
                     "Mini Split",
                     "Window Units"
