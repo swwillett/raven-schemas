@@ -23,7 +23,7 @@
   "additionalProperties": false,
   "properties": {
     "input_schema_version": {
-      "const": "1.1.6"
+      "const": "1.2.0"
     },
     "address": {
       "type": "string"
