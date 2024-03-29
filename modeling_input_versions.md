@@ -12,6 +12,20 @@ The version format follows the Semantic Versioning pattern: `MAJOR.MINOR.PATCH`
 
 ## Versions
 
+### PATCH [2.0.0] - [03/29/2024]
+
+#### Summary
+
+- Remove resstock default fields - `most_windows`, `primary_siding_material`/`type`, `foundation_under_main_floor_space`
+- Survey schema version -> 1.0.5
+
+### PATCH [1.2.0] - [03/28/2024]
+
+#### Summary
+
+- Added Solar Panels (Present or not present)
+- Survey schema version -> 1.0.4
+
 ### PATCH [1.1.5] - [12/22/2023]
 
 #### Summary
